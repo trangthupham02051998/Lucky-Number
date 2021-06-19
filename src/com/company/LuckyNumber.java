@@ -3,63 +3,74 @@ package com.company;
 import java.util.Random;
 import java.util.Scanner;
 
-public class LuckyNumber {
-    //    Khai bao cac bien
-    static int totalGuess = 0;
+public class Main {
+    static int totalGuess;
     static int totalGame = 0;
     static double avgGame = 0;
     static int best = 0;
     static String playAgain;
+    boolean isInt = false;
 
-    //    Thuc hien tro choi
-    private static void play() {
+    public static void main(String[] args) {
+        Play();
+        BaoCao();
+    }
+
+
+
+    public static void Play() {
         Scanner sc = new Scanner(System.in);
         Random random = new Random();
-
+        boolean isInt = false;
         do {
-//            Tao random number
+            do {
+//            Tao Random Number
             int ranDomNum = random.nextInt(100);
             int aNumberGuess = 1;
             int numberGuess;
             System.out.println(ranDomNum);
-            System.out.println("Toi Nghi So May Man tu 0 - 100");
-//            Doan so may man
+            System.out.println("Lucky Number from 0 - 100");
+//            Doan so may  man
 
-            do {
-                System.out.print("So may man la so may ?");
-                numberGuess = sc.nextInt();
-                if (numberGuess > ranDomNum) {
-                    System.out.println(" số may mắn nhỏ hơn số dự đoán của bạn.");
-                    aNumberGuess++;
-                } else if (numberGuess < ranDomNum) {
-                    System.out.println(" số may mắn lớn hơn số dự đoán của bạn.");
-                    aNumberGuess++;
-                } else {
-                    System.out.println("chúc mừng bạn đã đoán đúng con số may mắn" + aNumberGuess);
-                }
-            } while (numberGuess != ranDomNum);
-            totalGuess += aNumberGuess;
-            totalGame++;
-            avgGame = (double) totalGuess / totalGame;
-            if (aNumberGuess < best || best == 0) {
-                best = aNumberGuess;
-            }
-            System.out.print("Bạn có muốn chơi lần nữa ?");
-            playAgain = sc.next();
+                try {
 
-        } while (playAgain.equalsIgnoreCase("y") || playAgain.equalsIgnoreCase("yes"));
+                    do {
+                        System.out.println("Lucky Number is:");
+                        numberGuess = sc.nextInt();
+                        isInt = true;
+                        if (numberGuess > ranDomNum) {
+                            System.out.println("Lucky Guess Smaller");
+                            aNumberGuess++;
+                        } else if (numberGuess < ranDomNum) {
+                            System.out.println("Lucky Guess Bigger");
+                            aNumberGuess++;
+                        } else {
+                            System.out.println("You're Correct " + aNumberGuess);
+                        }
+                    } while (numberGuess != ranDomNum);
+
+                    totalGuess += aNumberGuess;
+                    totalGame++;
+                    avgGame = (double) totalGuess / totalGame;
+                    if (aNumberGuess < best || best == 0) {
+                        best = aNumberGuess;
+                    }
+                    System.out.println("You want play again?");
+                    playAgain = sc.next();
+                }catch (Exception e) {
+                        System.out.println("Not an integer. Try again: ");
+                        sc.nextLine();
+                        continue;
+                    }
+                    } while (playAgain.equalsIgnoreCase("y") || playAgain.equalsIgnoreCase("yes"));
+
+        } while (!isInt);
     }
-    //    In thong bao ket thuc tro choi
-    public static void baocao() {
+    public static void BaoCao() {
         System.out.println(" Overall result: ");
         System.out.println(" Total game =" + totalGame);
         System.out.println(" Total guesses =" + totalGuess);
         System.out.println(" Guesses/game =" + avgGame);
         System.out.println(" Best game =" + best);
-    }
-
-    public static void main(String[] args) {
-        play();
-        baocao();
     }
 }
